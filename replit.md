@@ -27,6 +27,7 @@ A Rust-based Solana blockchain application that connects to the Solana devnet an
 - **2025-09-06**: Initial project setup with Rust and Solana dependencies
 - **2025-09-06**: Created basic application connecting to Solana devnet
 - **2025-09-06**: Configured workflow for automatic building and running
+- **2025-09-06**: Created comprehensive README.md with setup instructions and development guide
 
 ## Running the Application
 The application runs automatically via the configured workflow. It will:
