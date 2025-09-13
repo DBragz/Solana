@@ -45,10 +45,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("\n⏰ Starting continuous monitoring... (Press Ctrl+C to stop)");
     println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     
-    let mut counter = 1;
+    let mut update_counter = 1;
+    let mut account_counter = 0;  // Account counter that will stop at 10
     
     loop {
-        println!("\n📊 Update #{} - {}", counter, chrono::Utc::now().format("%Y-%m-%d %H:%M:%S UTC"));
+        // Increment account counter before refresh, but stop at 10
+        if account_counter < 10 {
+            account_counter += 1;
+            println!("\n🔢 Account Counter: {} (incremented before refresh)", account_counter);
+        } else {
+            println!("\n🔢 Account Counter: {} (stopped at 10, no longer incrementing)", account_counter);
+        }
+        
+        println!("📊 Update #{} - {}", update_counter, chrono::Utc::now().format("%Y-%m-%d %H:%M:%S UTC"));
         
         // Check cluster health
         match client.get_health() {
@@ -83,12 +92,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("\n⏳ Waiting 10 seconds before next update...");
         sleep(Duration::from_secs(10)).await;
         
-        counter += 1;
+        update_counter += 1;
         
         // Optional: limit to prevent infinite running for demo purposes
-        if counter > 100 {
-            println!("\n🔄 Reached 100 updates. Restarting counter...");
-            counter = 1;
+        if update_counter > 100 {
+            println!("\n🔄 Reached 100 updates. Restarting update counter...");
+            update_counter = 1;
         }
     }
 }
